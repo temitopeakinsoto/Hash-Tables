@@ -15,6 +15,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.count = 0 
 
 
     def _hash(self, key):
@@ -56,7 +57,7 @@ class HashTable:
             current_node = self.storage[hashe]
             while current_node:
                 if current_node.key == key:
-                    current_node.value = value
+                    current_node.value = value 
                     return
                 elif current_node.next:
                     current_node = current_node.next
@@ -69,13 +70,15 @@ class HashTable:
     def remove(self, key):
         '''
         Remove the value stored with the given key.
-
         Print a warning if the key is not found.
-
         Fill this in.
         '''
-        pass
-
+        index = self._hash_mod(key)
+        if self.storage[index] is None:
+            print('Warning: key not found')
+        else:
+            self.storage[index] = None
+        
 
     def retrieve(self, key):
         '''
@@ -96,12 +99,28 @@ class HashTable:
                 return None
 
 
-    def __resize__(self):
-      self.capacity *= 2
-      new_storage = [None] * self.capacity
-      for i in range(self.count):
-         new_storage[i] = self.storage[i]
-      self.storage = new_storage 
+    def resize(self):
+        '''
+        Doubles the capacity of the hash table and
+        rehash all key/value pairs.
+        Fill this in.
+        '''
+        # double existing capacity
+        self.capacity *= 2
+        # copy existing storage
+        new_store = list(self.storage)
+        # create new array
+        self.storage = [None] * self.capacity
+        # go through all the items in the copied list removing none values
+        for i in [item for item in new_store if item != None]:
+          # set the current node to the current item
+            current = i
+            # if current node is not None
+            while current is not None:
+              # Insert into the New storage
+              self.insert(current.key, current.value)
+              # move to the next node
+              current = current.next 
 
 
 if __name__ == "__main__":
