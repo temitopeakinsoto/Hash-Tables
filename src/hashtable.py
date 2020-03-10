@@ -46,12 +46,23 @@ class HashTable:
     def insert(self, key, value):
         '''
         Store the value with the given key.
-
         Hash collisions should be handled with Linked List Chaining.
-
         Fill this in.
         '''
-        pass
+        hashe = self._hash_mod(key)
+        if not self.storage[hashe]:
+            self.storage[hashe] = LinkedPair(key, value)
+        else:
+            current_node = self.storage[hashe]
+            while current_node:
+                if current_node.key == key:
+                    current_node.value = value
+                    return
+                elif current_node.next:
+                    current_node = current_node.next
+                else:
+                    break
+            current_node.next = LinkedPair(key, value)
 
 
 
