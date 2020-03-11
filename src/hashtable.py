@@ -33,7 +33,15 @@ class HashTable:
 
         OPTIONAL STRETCH: Research and implement DJB2
         '''
-        pass
+        #start from an arbitrary prime number 
+        hash_val = 9491 
+        #iterate over each character in the key 
+        for el in key: 
+        #set hash value to the bit shift left by 5 
+        #of the hash value and sum of the hash value
+        #then add the value for the char
+            hash_val = ((hash_val << 5) + hash_val) + ord(el)
+        return hash_val
 
 
     def _hash_mod(self, key):
